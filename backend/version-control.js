@@ -1,64 +1,35 @@
-const GitHub = require("github-api");
+const axios = require("axios");
 const packageJson = require("../package.json");
 const { compareVersions } = require("compare-versions");
 const memoizee = require("memoizee");
 
+const REPO_OWNER = "cyfershepard";
+const REPO_NAME = "Jellystat";
+
 async function checkForUpdates() {
   const currentVersion = packageJson.version;
-  const repoOwner = "cyfershepard";
-  const repoName = "Jellystat";
-  const gh = new GitHub();
-
-  let result = { current_version: packageJson.version, latest_version: "", message: "", update_available: false };
-
-  let latestVersion;
+  let result = { current_version: currentVersion, latest_version: "", message: "", update_available: false };
 
   try {
-    const path = "package.json";
-
-    const response = await gh.getRepo(repoOwner, repoName).getContents("main", path);
-    const content = response.data.content;
-    const decodedContent = Buffer.from(content, "base64").toString();
-    latestVersion = JSON.parse(decodedContent).version;
+    const response = await axios.get(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/package.json`,
+      { headers: { Accept: "application/vnd.github.raw+json" } }
+    );
+    const latestVersion = response.data.version;
 
     if (compareVersions(latestVersion, currentVersion) > 0) {
-      // console.log(`A new version V.${latestVersion} of ${repoName} is available.`);
-      result = {
-        current_version: packageJson.version,
-        latest_version: latestVersion,
-        message: `${repoName} has an update ${latestVersion}`,
-        update_available: true,
-      };
+      result = { current_version: currentVersion, latest_version: latestVersion, message: `${REPO_NAME} has an update ${latestVersion}`, update_available: true };
     } else if (compareVersions(latestVersion, currentVersion) < 0) {
-      // console.log(`${repoName} is using a beta version.`);
-      result = {
-        current_version: packageJson.version,
-        latest_version: latestVersion,
-        message: `${repoName} is using a beta version`,
-        update_available: false,
-      };
+      result = { current_version: currentVersion, latest_version: latestVersion, message: `${REPO_NAME} is using a beta version`, update_available: false };
     } else {
-      // console.log(`${repoName} is up to date.`);
-      result = {
-        current_version: packageJson.version,
-        latest_version: latestVersion,
-        message: `${repoName} is up to date`,
-        update_available: false,
-      };
+      result = { current_version: currentVersion, latest_version: latestVersion, message: `${REPO_NAME} is up to date`, update_available: false };
     }
   } catch (error) {
-    console.error(`Failed to fetch releases for ${repoName}: ${error.message}`);
-    result = {
-      current_version: packageJson.version,
-      latest_version: "N/A",
-      message: `Failed to fetch releases for ${repoName}: ${error.message}`,
-      update_available: false,
-    };
+    console.error(`Failed to fetch releases for ${REPO_NAME}: ${error.message}`);
+    result = { current_version: currentVersion, latest_version: "N/A", message: `Failed to fetch releases for ${REPO_NAME}: ${error.message}`, update_available: false };
   }
 
   return result;
 }
 
-const memoizedCheckForUpdates = memoizee(checkForUpdates, { maxAge: 300000, promise: true });
-
-module.exports = { checkForUpdates: memoizedCheckForUpdates };
+module.exports = { checkForUpdates: memoizee(checkForUpdates, { maxAge: 300000, promise: true }) };
