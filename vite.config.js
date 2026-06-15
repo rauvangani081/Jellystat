@@ -42,12 +42,20 @@ export default defineConfig(({ mode }) => {
 
     build: {
       target: "es2015",
+      rolldownOptions: {
+        output: {
+          codeSplitting: true,
+        },
+      },
       rollupOptions: {
         output: {
           manualChunks(id) {
             if (!id.includes("node_modules")) return;
+            // MUI icons is enormous — keep it separate
+            if (id.includes("/@mui/icons-material")) return "vendor-mui-icons";
+            // MUI X (data grid, date pickers) separate from core MUI
+            if (id.includes("/@mui/x-")) return "vendor-mui-x";
             if (id.includes("/@mui/") || id.includes("/@emotion/")) return "vendor-mui";
-            if (id.includes("/antd/") || id.includes("/@ant-design/")) return "vendor-antd";
             if (id.includes("/recharts/")) return "vendor-charts";
             if (id.includes("/material-react-table/") || id.includes("/@tanstack/")) return "vendor-table";
             if (id.includes("/i18next") || id.includes("/react-i18next")) return "vendor-i18n";
@@ -58,7 +66,8 @@ export default defineConfig(({ mode }) => {
               id.includes("/react-toastify/") ||
               id.includes("/socket.io-client/") ||
               id.includes("/bootstrap/") ||
-              id.includes("/react-bootstrap/")
+              id.includes("/react-bootstrap/") ||
+              id.includes("/remixicon-react/")
             ) return "vendor-misc";
           },
         },

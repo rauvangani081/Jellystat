@@ -1,4 +1,4 @@
-@import './variables.module.css';
+@import './variables.css';
 .navbar {
   background-color: var(--secondary-background-color);
   border-right: 1px solid #414141 !important;
@@ -62,7 +62,7 @@
   background-color: var(--primary-color);
 }
 
-.active
+.navitem.active
 {
   background-color: var(--primary-color) !important;
   transition: background-color 0.2s ease-in-out;

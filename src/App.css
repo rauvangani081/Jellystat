@@ -1,11 +1,6 @@
-@import "pages/css/variables.module.css";
-@import "pages/css/variables.module.css";
+@import "pages/css/variables.css";
 main {
   margin-inline: 20px;
-  /* width: 100%; */
-  overflow: auto;
-  margin-inline: 20px;
-  /* width: 100%; */
   overflow: auto;
 }
 
@@ -20,10 +15,8 @@ main {
   }
 }
 
-body {
-  background-color: var(--background-color) !important;
-  background-color: var(--background-color) !important;
-  /* background-color: #17151a; */
+html body {
+  background-color: var(--background-color);
   color: white;
 }
 
