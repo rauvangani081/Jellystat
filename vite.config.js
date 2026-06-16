@@ -56,7 +56,6 @@ export default defineConfig(({ mode }) => {
             // MUI X (data grid, date pickers) separate from core MUI
             if (id.includes("/@mui/x-")) return "vendor-mui-x";
             if (id.includes("/@mui/") || id.includes("/@emotion/")) return "vendor-mui";
-            if (id.includes("/recharts/")) return "vendor-charts";
             if (id.includes("/material-react-table/") || id.includes("/@tanstack/")) return "vendor-table";
             if (id.includes("/i18next") || id.includes("/react-i18next")) return "vendor-i18n";
             if (id.includes("/react-dom/") || id.includes("/react-router") || id.includes("/react/")) return "vendor-react";
