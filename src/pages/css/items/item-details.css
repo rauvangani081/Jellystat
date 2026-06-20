@@ -1,4 +1,4 @@
-@import "../variables.module.css";
+@import "../variables.css";
 .item-detail-container {
   color: white;
   background-color: var(--secondary-background-color);

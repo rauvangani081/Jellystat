@@ -348,7 +348,7 @@ function SessionCard(props) {
                         }}
                       >
                         {isRemoteSession(props.data.session.RemoteEndPoint) &&
-                        (window.env.JS_GEOLITE_ACCOUNT_ID ?? import.meta.env.JS_GEOLITE_ACCOUNT_ID) ? (
+                        (window.env?.JS_GEOLITE_ACCOUNT_ID ?? import.meta.env.JS_GEOLITE_ACCOUNT_ID) ? (
                           <Link
                             className="text-decoration-none text-white"
                             onClick={() => showIPDataModal(props.data.session.RemoteEndPoint)}

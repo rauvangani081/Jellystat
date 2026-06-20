@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:22.21.1-bookworm-slim AS builder
+FROM node:26-bookworm-slim AS builder
 
 WORKDIR /app
 
@@ -14,11 +14,12 @@ COPY entry.sh ./
 RUN npm run build
 
 # Stage 2: Create the production image
-FROM node:22.21.1-bookworm-slim
+FROM node:26-bookworm-slim
 
 RUN apt-get update && \
+    apt-get upgrade -yqq --no-install-recommends && \
     apt-get install -yqq --no-install-recommends wget && \
-    apt-get autoremove && \
+    apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

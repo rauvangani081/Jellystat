@@ -1,4 +1,4 @@
-@import "./variables.module.css";
+@import "./variables.css";
 .loading {
   margin: 0px;
   height: calc(100vh - 100px);
