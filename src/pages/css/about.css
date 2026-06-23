@@ -1,4 +1,4 @@
-@import './variables.module.css';
+@import './variables.css';
 .about
 {
     background-color: var(--second-background-color) !important;

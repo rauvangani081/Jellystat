@@ -1,4 +1,4 @@
-@import "../variables.module.css";
+@import "../variables.css";
 
 .activity-table {
   background-color: var(--secondary-background-color);

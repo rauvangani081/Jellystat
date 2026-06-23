@@ -1,4 +1,4 @@
-@import "./variables.module.css";
+@import "./variables.css";
 .grid-stat-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(auto, 520px));
